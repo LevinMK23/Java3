@@ -1,24 +1,30 @@
 import java.util.ArrayList;
+import java.util.List;
 
-public class Box</*use generics*/> {
+public class Box<T extends Fruit> {
 
-    //используте ArrayList для хранения фруктов
+    private List<T> fuits = new ArrayList<>();
 
     public float getWeight(){
-        //TODO
-        return 0;
+        float weight = 0.0f;
+        for (int i = 0; i < fuits.size(); i++) {
+            weight += fuits.get(i).getWeight();
+        }
+        return weight;
     }
 
-    public boolean compareTo(Box</*use generics*/> other){
-        //TODO
+    public boolean compareTo(Box<? extends Fruit> other){
+        if (this.getWeight() == other.getWeight()) return true;
         return false;
     }
 
-    public void addFruit(/*use generics*/ fruit){
-        //TODO
+    public void addFruit(T fruit){
+        fuits.add(fruit);
     }
 
-    public void dropFruits(Box</*use generics*/> otherBox){
-        //TODO
+    public void dropFruits(Box<T> otherBox){
+        while (!this.fuits.isEmpty()){
+            otherBox.addFruit(this.fuits.remove(0));
+        }
     }
 }
