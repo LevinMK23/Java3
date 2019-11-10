@@ -1,6 +1,8 @@
+package java;
+
 import java.util.ArrayList;
 
-public class Box</*use generics*/> {
+public class Box<T> {
 
     //используте ArrayList для хранения фруктов
 
@@ -9,16 +11,16 @@ public class Box</*use generics*/> {
         return 0;
     }
 
-    public boolean compareTo(Box</*use generics*/> other){
+    public boolean compareTo(Box<T> other){
         //TODO
         return false;
     }
 
-    public void addFruit(/*use generics*/ fruit){
+    public void addFruit(T fruit){
         //TODO
     }
 
-    public void dropFruits(Box</*use generics*/> otherBox){
+    public void dropFruits(Box<T> otherBox){
         //TODO
     }
 }

@@ -1,3 +1,7 @@
+package java;
+
+import java.Fruit;
+
 public class Orange extends Fruit {
 
     @Override

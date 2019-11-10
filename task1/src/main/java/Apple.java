@@ -1,3 +1,5 @@
+package java;
+
 public class Apple extends Fruit {
 
     @Override

@@ -5,38 +5,22 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
-public class Exercise5<T extends Comparable<T>> {
+public class Exercise5{
 
-    private T obj;
+    //compare
+    static Glass<Water> waterGlass;
+    static Glass<Acid> acidGlass;
 
-    public Exercise5(T obj) {
-        this.obj = obj;
+    public Exercise5() {
+        waterGlass = new Glass<>(new Water(1, 1.7f));
+        acidGlass = new Glass<>(new Acid(1, 1.3f));
     }
 
-    public T getObj() {
-        return obj;
-    }
-
-    public int compare(Exercise5<T> other){
-        return obj.compareTo(other.getObj());
-    }
-
-    @Override
-    public String toString() {
-        return obj.toString();
+    public int compare(Glass<? extends Liquid> a, Glass<? extends Liquid> b){
+        return a.liquid.compareTo(b.liquid);
     }
 
     public static void main(String[] args) {
-        Exercise5<Man> e1 = new Exercise5<>(new Man(12, 170));
-        Exercise5<Man> e2 = new Exercise5<>(new Man(15, 11));
-        ArrayList<Exercise5<Man>>  data = new ArrayList<>();
-        Random rnd = new Random();
-        for (int i = 0; i < 10; i++) {
-            data.add(new Exercise5<>(new Man(rnd.nextInt(1000),
-                    100 + rnd.nextInt(150))));
-        }
-        data.sort(Comparator.comparing(Exercise5::getObj));
-        System.out.println(data);
+        System.out.println(new Exercise5().compare(waterGlass, acidGlass));
     }
-
 }
