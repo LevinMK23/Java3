@@ -1,8 +1,11 @@
 import java.sql.*;
 import java.util.Arrays;
 
+
 public class DBClass {
+  
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
         Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager
                 .getConnection("jdbc:sqlite:homework.db");

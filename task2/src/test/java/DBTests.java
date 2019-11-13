@@ -15,12 +15,11 @@ public class DBTests {
     DBUtility util;
 
     @Before
-    public void starter(){
+    public void starter() {
         try {
             util = new DBUtility();
             Class.forName("org.sqlite.JDBC");
-            //jdbc:sqlite:/Users/levinmk/Desktop/homework.db используйте свой путь к базе
-            con = DriverManager.getConnection("jdbc:sqlite:/Users/levinmk/IdeaProjects/Java3/homework.db");
+            con = DriverManager.getConnection("jdbc:sqlite:/Users/liliakobleva/Developer/Java/Java3/homework.db");
             stmt = con.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -35,7 +34,6 @@ public class DBTests {
         }catch (Exception ignored){
 
         }
-
     }
 
     @Test
@@ -51,8 +49,7 @@ public class DBTests {
     @Test
     public void testExpensivePC(){
         ArrayList<String> list = util.selectExpensivePC(stmt);
-        list.sort(Comparator.comparing
-                (o->o));
+        list.sort(Comparator.comparing(o->o));
         Assert.assertArrayEquals(new String[]{"2205", "2210"}, list.toArray());
     }
 
@@ -75,5 +72,6 @@ public class DBTests {
         int max = util.makerWithMaxProceeds(stmt);
         Assert.assertEquals(140000, max);
     }
+
 
 }

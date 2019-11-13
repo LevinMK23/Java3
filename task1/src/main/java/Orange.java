@@ -6,7 +6,6 @@ public class Orange extends Fruit {
 
     @Override
     public float getWeight(){
-        //TODO
-        return 0;
+        return 1.5F;
     }
 }
