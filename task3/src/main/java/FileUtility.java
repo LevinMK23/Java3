@@ -128,20 +128,12 @@ public class FileUtility {
         RandomAccessFile fp = new RandomAccessFile(pathToFile, "r");
         List<String> strings = new ArrayList<>();
 
-        long pos = fp.length() - 100L * 82L + 40;
-        System.out.println(fp.length() + " " + pos);
+        long pos = fp.length() - 100L * 81L;
         fp.seek(pos);
-        System.out.println(fp.getFilePointer());
 
         String str = "";
         while((str = fp.readLine()) != null) {
             strings.add(str);
-        }
-
-        int count = 0;
-        for (String s: strings) {
-            System.out.println(count + " " + str);
-            count++;
         }
 
         return strings;
