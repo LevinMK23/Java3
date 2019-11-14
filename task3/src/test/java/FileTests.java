@@ -3,8 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 @DisplayName("Home work 3")
@@ -16,12 +15,12 @@ public class FileTests {
     @Before
     public void starter(){
         //change your path
-        pathToResource = "/Users/levinmk/IdeaProjects/Java3/task3/src/main/resources/";
+        pathToResource = "D:/Projects/JAVA/Java3-1/task3/src/main/resources/";
         util = new FileUtility();
     }
 
     @Test
-    public void testSort(){
+    public void testSort() throws IOException {
         File input = new File(pathToResource + "array.txt");
         File output = new File(pathToResource + "arrayout.txt");
         util.sortEvenElements(input, output);
@@ -60,7 +59,7 @@ public class FileTests {
     }
 
     @Test
-    public void testPassGen(){
+    public void testPassGen() throws IOException {
         File input = new File(pathToResource + "login.txt");
         File output = new File(pathToResource + "pass.txt");
         util.passwordGen(input, output);
@@ -79,8 +78,15 @@ public class FileTests {
     }
 
     @Test
-    public void testAppend(){
+    public void testAppend() throws IOException {
         File file = new File(pathToResource + "append.txt");
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        for (int i = 1; i <= 3; i++) {
+            bw.write("str" + i + "\n");
+        }
+        bw.close();
+
         ArrayList<String> list = new ArrayList<>();
         for (int i = 4; i < 11; i++) {
             list.add("str" + i);
@@ -101,7 +107,7 @@ public class FileTests {
     }
 
     @Test
-    public void testNLines(){
+    public void testNLines() throws IOException {
         List<String> list =
                 util.getNString(pathToResource + "file.txt", 100);
         for (int i = 0; i < 100; i++) {

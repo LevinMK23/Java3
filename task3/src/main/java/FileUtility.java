@@ -13,9 +13,33 @@ public class FileUtility {
     * 5 4 2 1 3
     * 5 2 4 1 3
      */
-    public void sortEvenElements(File in, File out) {
-        //TODO
+    public void sortEvenElements(File in, File out) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(in));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(out));
 
+        int N = Integer.parseInt(br.readLine());
+
+        String[] nums = br.readLine().split(" ");
+        ArrayList<Integer> evenNums = new ArrayList<>();
+
+        for (int i = 0; i < N; i++) {
+            Integer tmp = Integer.parseInt(nums[i]);
+            if (tmp % 2 == 0)
+                evenNums.add(Integer.parseInt(nums[i]));
+        }
+
+        Collections.sort(evenNums);
+
+        for (String n: nums) {
+            Integer tmp = Integer.parseInt(n);
+            if (tmp % 2 == 0)
+                bw.write(evenNums.remove(0) + " ");
+            else
+                bw.write(tmp + " ");
+        }
+
+        br.close();
+        bw.close();
     }
 
     /*
@@ -27,17 +51,68 @@ public class FileUtility {
     * Метод должен записать в файл вывода записи с логинами и паролями
     * для каждого пользователя
      */
-    public void passwordGen(File in, File out){
-        //TODO
+    public void passwordGen(File in, File out) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(in));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(out));
 
+        String user = "";
+        while((user = br.readLine()) != null) {
+            bw.write(String.format("%s %s\n", user, passGen()));
+        }
+
+        br.close();
+        bw.close();
+    }
+
+    private String passGen() {
+        String pass = "";
+
+        Random random = new Random();
+        int length = 6 + random.nextInt(6);
+
+        int naz = 0;
+        int nAZ = 0;
+        int n09 = 0;
+        int nSpChars = 0;
+
+        while(pass.length() < length) {
+            char ch = (char)random.nextInt(255);
+
+            if (ch >= 'a' && ch <= 'z' && naz < 1) {
+                pass += ch;
+                naz++;
+            }
+            if (ch >= 'A' && ch <= 'Z' && nAZ < 1) {
+                pass += ch;
+                nAZ++;
+            }
+            if (ch >= '0' && ch <= '9' && n09 < 1) {
+                pass += ch;
+                n09++;
+            }
+            if ((ch == '*' || ch == '!' || ch == '%') && nSpChars < 1) {
+                pass += ch;
+                nSpChars++;
+            }
+
+            if ((naz + nAZ + n09 + nSpChars) == 4) {
+                naz = nAZ = n09 = nSpChars = 0;
+            }
+        }
+
+        return pass;
     }
 
     /*
     *  Метод должен дописать в переданный файл все
     * записи из списка по одной записи в строке
     * */
-    public void appender(File file, List<String> records){
-        //TODO
+    public void appender(File file, List<String> records) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+        for(String rec: records) {
+            bw.write(rec + "\n");
+        }
+        bw.close();
     }
 
     /*
@@ -49,9 +124,19 @@ public class FileUtility {
     * задачи
     * Альтернативное решение: использование очереди или стека
     * */
-    public List<String> getNString(String pathToFile, int n){
-        //TODO
-        return null;
+    public List<String> getNString(String pathToFile, int n) throws IOException {
+        RandomAccessFile fp = new RandomAccessFile(pathToFile, "r");
+        List<String> strings = new ArrayList<>();
+
+        long pos = fp.length() - 100L * 81L;
+        fp.seek(pos);
+
+        String str = "";
+        while((str = fp.readLine()) != null) {
+            strings.add(str);
+        }
+
+        return strings;
     }
 
 }
