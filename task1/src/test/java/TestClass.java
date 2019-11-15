@@ -55,13 +55,6 @@ class Task03{
     }
 
 
-    public void testCompare() {
-        Assert.assertFalse(b1.compareTo(b2));
-        Assert.assertTrue(new Box<Orange>()
-                .compareTo(new Box<Apple>()));
-        Assert.assertTrue(b1.compareTo(b3));
-    }
-
 
     public void testDrop() {
         try{
@@ -104,7 +97,6 @@ class TestClass {
 
 
     }
-
 }
 
 

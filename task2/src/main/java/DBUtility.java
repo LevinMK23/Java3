@@ -18,27 +18,17 @@ public class DBUtility {
      */
 
 
-    private void InsertNewPrinterToDB(Statement stmt, Printer printer) throws SQLException {
-        stmt.execute("INSERT INTO Printer (model, color, type, price) VALUES ("+ printer.getModel()+", '" + printer.getColor()+"', '" +printer.getType() + "', " + printer.getPrice()+")");
-        stmt.execute("INSERT INTO Product (maker, model, type) VALUES ('" + printer.getMaker()+ "', " + printer.getModel() + ", '" + printer.getType() +"')");
+    void AddPrinters(Statement stmt){
+
     }
 
-    private void AddPrinters(Statement stmt) throws SQLException {
-        Printer[] Printers = new Printer[] {
-                new Printer(1012, "HP" ,"col", "laser", 20000),
-                new Printer(1010, "Canon", "bw", "jet", 5000)};
-
-        for (Printer printer :
-                Printers) {
-            InsertNewPrinterToDB(stmt, printer);
-        }
-        InsertNewPrinterToDB(stmt, Printers[1]);//добавляем второй принтер повторно согласно условий задачи
-    }
 
     public void createPrinterTable(Connection con, Statement  stmt){
         try {
             //stmt.execute("CREATE TABLE IF NOT EXISTS \"Printers\" ( \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, \"model\"\tINTEGER, \"color\" TEXT, \"type\" TEXT, \"price\" INTEGER)");
-            stmt.execute("CREATE TABLE IF NOT EXISTS Printer (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, model  INTEGER, color TEXT, type TEXT, price INTEGER)");
+            stmt.execute("CREATE TABLE IF NOT EXISTS " +
+                    "Printer (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" +
+                    " UNIQUE, model  INTEGER, color TEXT, type TEXT, price INTEGER)");
             AddPrinters(stmt);
 
         } catch (SQLException e) {
@@ -91,7 +81,9 @@ public class DBUtility {
         ArrayList<String> result = new ArrayList<>();
         ResultSet rs = null;
         try {
-            rs = stmt.executeQuery("SELECT DISTINCT Makers.Name from Makers where Makers.id in (SELECT Laptop.maker FROM Laptop) AND Makers.id in (SELECT PC.maker FROM PC)");
+            rs = stmt.executeQuery("SELECT DISTINCT Makers.Name from Makers " +
+                    "where Makers.id in (SELECT Laptop.maker FROM Laptop) AND Makers.id " +
+                    "in (SELECT PC.maker FROM PC)");
             while (rs.next()) {
                 result.add(rs.getString("model"));
             }

@@ -1,9 +1,8 @@
 
-/*use generics s*/
-
 import java.util.ArrayList;
 
-class Box<T extends Fruit> {
+public class Box<T> {
+
 
     ArrayList<T> fruits = new ArrayList<>();
     //используте ArrayList для хранения фруктов
@@ -16,6 +15,7 @@ class Box<T extends Fruit> {
         }
         return weight;
     }
+
 
     public boolean compareTo(Box<? extends Fruit> box) {
         return box.getWeight() == getWeight();
@@ -32,6 +32,18 @@ class Box<T extends Fruit> {
         } catch (Exception e) {
             throw new DropException();
         }
+
+    public boolean compareTo(Box<T> other){
+        //TODO
+        return false;
+    }
+
+    public void addFruit(T fruit){
+        //TODO
+    }
+
+    public void dropFruits(Box<T> otherBox){
+        //TODO
     }
 }
 

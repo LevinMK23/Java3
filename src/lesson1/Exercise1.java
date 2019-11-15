@@ -1,36 +1,51 @@
 package lesson1;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Exercise1 {
 
-    //alt + insert win, linux
-    //command + N
-    Object obj;
+    //without gen
+    //alt + insert win
+    //cmd + N mac OS
+    Object object;
 
-    public Exercise1(Object obj) {
-        this.obj = obj;
+    public Exercise1(Object object) {
+        this.object = object;
     }
 
-    public Object getObj() {
-        return obj;
+    public Object getObject() {
+        return object;
     }
 
-    public void setObj(Object obj) {
-        this.obj = obj;
+    public void setObject(Object object) {
+        this.object = object;
     }
 
     public static void main(String[] args) {
-        Exercise1 ex1 = new Exercise1("12");
-        Exercise1 ex2 = new Exercise1(12);
-        Exercise1 ex3 = new Exercise1(new Exception());
-        ex1.setObj(124);
-        System.out.println(new char[]{'1', '2'});
-        System.out.println(ex2.getObj().getClass());
-        System.out.println(ex3.getObj().getClass());
-        System.out.println(ex1.getObj().getClass());
-        if(ex1.getObj() instanceof String) {
-            System.out.println(((String) (ex1.getObj())).length());
+        Exercise1 ex1 = new Exercise1(1L);
+        Exercise1 ex2 = new Exercise1(2.5);
+        Exercise1 ex3 = new Exercise1(2.5f);
+        Exercise1 ex4 = new Exercise1("string");
+        Exercise1 ex5 = new Exercise1(new Scanner(System.in));
+        ex5.setObject(15);
+        System.out.println(ex1.getObject().getClass().getName());
+        System.out.println(ex2.getObject().getClass().getName());
+        System.out.println(ex3.getObject().getClass().getName());
+        System.out.println(ex4.getObject().getClass().getName());
+        System.out.println(ex5.getObject().getClass().getName());
+        long val = ((Long)(ex1.getObject()));
+        if(ex4.getObject() instanceof Integer){
+            int val1 = (int) ex4.getObject();
+            System.out.println(val1);
         }
+        if(ex4.getObject() instanceof String){
+            String str = ex4.getObject() + " concat";
+            System.out.println(str);
+        }
+
+
+
+
     }
 }

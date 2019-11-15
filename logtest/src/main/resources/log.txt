@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2019-10-21T18:52:36</date>
+  <millis>1571673156827</millis>
+  <sequence>0</sequence>
+  <logger>MainClass</logger>
+  <level>WARNING</level>
+  <class>MainClass</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>java.lang.Exception
+[java.lang.Thread.getStackTrace(Thread.java:1556), MainClass.main(MainClass.java:15)]</message>
+</record>
+</log>
