@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class FileUtility {
@@ -35,7 +36,36 @@ public class FileUtility {
      * 5 2 4 1 3
      */
     public void sortEvenElements(File in, File out) {
-        //TODO
+        try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+            reader.readLine();
+            String NumsParseString = reader.readLine();
+            String sLine = NumsParseString;
+
+            NumsParseString.replaceAll(" ", "");
+
+            List<Integer> EvenNums = new ArrayList<>();
+            for (int i = 0; i < NumsParseString.length(); i++) {
+                int x = Integer.parseInt(NumsParseString.substring(i, i + 1));
+                if (x % 2 == 0)
+                    EvenNums.add(x);
+            }
+
+            Collections.sort(EvenNums);
+            StringBuilder NewLine = new StringBuilder(sLine);
+
+            for (int i = 0; i < EvenNums.size(); i ++){
+                for (int j = 0; j < NewLine.length(); j++) {
+                    if (NewLine.substring(j, j+1)!= " "){
+                        int x = Integer.parseInt(NewLine.substring(j, j+1));
+                        if (x%2==0)
+                            NewLine.replace(j, j+1,EvenNums.get(i).toString());
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -49,8 +79,47 @@ public class FileUtility {
      * для каждого пользователя
      */
     public void passwordGen(File in, File out) {
-        //TODO
+        List<String> logins = new ArrayList<>();
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(in));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(in))
+        ) {
+            String str;
+            while ((str = reader.readLine()) != null) {
+                logins.add(str);
+            }
+
+            for (String login :
+                    logins) {
+                String pass = randomPass(6);
+                writer.write(login + " " + pass);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String randomPass(int len) {
+        Random random = new Random();
+
+        StringBuilder pass = new StringBuilder();
+        String alphabet = "qwertyuiopasdfghjklzxcvbnm";
+        String nums = "0123456789";
+        String signs = "?><!@#$%^&*)(";
+        while (pass.length() <= len) {
+            alphabet.charAt(random.nextInt(alphabet.length()));
+            int x = random.nextInt(alphabet.length());
+            char symb = alphabet.charAt(x);
+            if (x % 2 == 0) {
+                pass.append(symb);
+            } else {
+                pass.append(String.valueOf(symb).toUpperCase());
+            }
+            pass.append(nums.charAt(random.nextInt(nums.length())));
+            pass.append(signs.charAt(random.nextInt(signs.length())));
+        }
+
+        return pass.toString();
     }
 
     /*
@@ -93,7 +162,7 @@ public class FileUtility {
             File file = new File(pathToFile);
             int pos = file.length() > 80 ? (int) file.length() - 80 : 0; //?((int)file.length()>80, (int) file.length()-80, 0);
             byte[] bb = new byte[80]; //new byte[(int) file.length()];
-            raf.readFully(bb, pos, 80);
+            //raf.readFully(bb, pos, 80);
             raf.seek(pos);
 
             raf.write(bb);
