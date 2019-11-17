@@ -4,7 +4,6 @@ import java.util.*;
 public class FileUtility {
 
 
-
     private void ReadFile(String _FileName) {
 
       /*  try (BufferedWriter writer = new BufferedWriter(new FileWriter(_FileName))) {
@@ -24,15 +23,16 @@ public class FileUtility {
             e.printStackTrace();
         }
     }
+
     /*
-    * Структура файла ввода: в первой строке одно целое число - N
-    * далее следует N целых чисел через пробел
-    * Метод должен отсортировать элементы с четным значением,
-    * а нечетные оставить на своих местах и вывести результат через пробел в файл вывода
-    * Пример:
-    * 5
-    * 5 4 2 1 3
-    * 5 2 4 1 3
+     * Структура файла ввода: в первой строке одно целое число - N
+     * далее следует N целых чисел через пробел
+     * Метод должен отсортировать элементы с четным значением,
+     * а нечетные оставить на своих местах и вывести результат через пробел в файл вывода
+     * Пример:
+     * 5
+     * 5 4 2 1 3
+     * 5 2 4 1 3
      */
     public void sortEvenElements(File in, File out) {
         //TODO
@@ -40,28 +40,28 @@ public class FileUtility {
     }
 
     /*
-    * Генератор паролей, пароль должен отвечать требованиям:
-    * длина не менее 6 и не более 12, включает минимум по одному символу
-    * из наборов: a-z, A-Z, 0-9, {*,!,%}
-    * все пароли должны быть разными
-    * На вход метод получает файл с логинами пользователей
-    * Метод должен записать в файл вывода записи с логинами и паролями
-    * для каждого пользователя
+     * Генератор паролей, пароль должен отвечать требованиям:
+     * длина не менее 6 и не более 12, включает минимум по одному символу
+     * из наборов: a-z, A-Z, 0-9, {*,!,%}
+     * все пароли должны быть разными
+     * На вход метод получает файл с логинами пользователей
+     * Метод должен записать в файл вывода записи с логинами и паролями
+     * для каждого пользователя
      */
-    public void passwordGen(File in, File out){
+    public void passwordGen(File in, File out) {
         //TODO
 
     }
 
     /*
-    *  Метод должен дописать в переданный файл все
-    * записи из списка по одной записи в строке
-    * */
-    public void appender(File file, List<String> records){
+     *  Метод должен дописать в переданный файл все
+     * записи из списка по одной записи в строке
+     * */
+    public void appender(File file, List<String> records) {
 
         try (RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
 
-            byte[] bb = new byte[(int)file.length()];
+            byte[] bb = new byte[(int) file.length()];
             raf.readFully(bb);
             raf.seek(0);
             for (String record :
@@ -75,29 +75,32 @@ public class FileUtility {
 
         return;
 
-      /*  try (BufferedWriter writer = new BufferedWriter(new FileWriter(file) )) {
-
-            for (String record :
-                    records) {
-                writer.append(record);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /*
-    * Метод возвращает список из N последних строк файла
-    * строки можно дополнять пробелами до длины 80
-    * тогда количество символов в файле будет предсказуемо
-    * 10 строк это ровно 800 символов
-    * Изучите класс RandomAccessFile для эффективного решения данной
-    * задачи
-    * Альтернативное решение: использование очереди или стека
-    * */
-    public List<String> getNString(String pathToFile, int n){
-        //TODO
+     * Метод возвращает список из N последних строк файла
+     * строки можно дополнять пробелами до длины 80
+     * тогда количество символов в файле будет предсказуемо
+     * 10 строк это ровно 800 символов
+     * Изучите класс RandomAccessFile для эффективного решения данной
+     * задачи
+     * Альтернативное решение: использование очереди или стека
+     * */
+    public List<String> getNString(String pathToFile, int n) {
+        try (RandomAccessFile raf = new RandomAccessFile(pathToFile, "rw")) {
+
+            List<String> list = new ArrayList<>();
+            File file = new File(pathToFile);
+            int pos = file.length() > 80 ? (int) file.length() - 80 : 0; //?((int)file.length()>80, (int) file.length()-80, 0);
+            byte[] bb = new byte[80]; //new byte[(int) file.length()];
+            raf.readFully(bb, pos, 80);
+            raf.seek(pos);
+
+            raf.write(bb);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
-
 }
