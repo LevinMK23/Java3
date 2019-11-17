@@ -43,7 +43,6 @@ public class FileSystem {
                 .map(String::trim)
                 .flatMap(x-> Stream.of(x.split(" ")))
                 .forEach(System.out::println);
-
     }
 
     static void writeUser(File file, User user) throws IOException {

@@ -16,7 +16,7 @@ public class FileTests {
     @Before
     public void starter(){
         //change your path
-        pathToResource = "/Users/levinmk/IdeaProjects/Java3/task3/src/main/resources/";
+        pathToResource = "C:\\Users\\Mikhail\\IdeaProjects\\Java3\\task3\\src\\main\\resources\\";
         util = new FileUtility();
     }
 
