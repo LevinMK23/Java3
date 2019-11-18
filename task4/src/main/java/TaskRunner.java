@@ -28,7 +28,21 @@ public class TaskRunner implements Runnable{
 
     @Override
     public void run() {
-        //TODO
+        synchronized (mutex) {
+            while (iter < 100) {
+                if ((iter % 3) == cnt) {
+                    list.add(message);
+                    iter++;
+                    mutex.notifyAll();
+                } else {
+                    try {
+                        mutex.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
 }
