@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,6 +30,21 @@ public class TaskRunner implements Runnable{
 
     @Override
     public void run() {
+        synchronized (mutex) {
+            while (iter < 10) {
+                if ((iter % 3) == cnt) {
+                    list.add(message);
+                    iter++;
+                    mutex.notifyAll();
+                } else {
+                    try {
+                        mutex.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
         //TODO sleep 500
     }
 
