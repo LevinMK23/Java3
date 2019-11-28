@@ -7,8 +7,16 @@ public class ObjectInfo {
 
     //Use your path
     //Объект неизвестен)))
+    private static String defaultProjectsPath = "/Users/levinmk/IdeaProjects/Java3";
+    private static String javaProjectsPath = "";
+    static {
+        javaProjectsPath = System.getenv("PR_JAVA").replace('\\', '/') + "Java3-1";
+        if (javaProjectsPath == null) {
+            javaProjectsPath = defaultProjectsPath;
+        }
+    }
 
-    private String path = "/Users/levinmk/IdeaProjects/Java3" +
+    private String path = javaProjectsPath +
             "/task7/src/main/resources/";
 
     public ObjectInfo() {
