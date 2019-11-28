@@ -1,4 +1,10 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ObjectInfo {
 
@@ -50,9 +56,72 @@ public class ObjectInfo {
      * ......
      * типN имя_поляN : значениеN
      * */
-    public String objectInfo() {
-        // TODO: 18/11/2019
-        return null;
+    public String objectInfo() throws IllegalAccessException, InstantiationException {
+        String objInfo = "";
+
+        for (Object object : objects) {
+            String className = object.getClass().getName();
+            objInfo += className + ":\n";
+
+            Field[] fields = object.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                String fieldType = field.getType().toString();
+                String fieldName = field.getName();
+                String fieldValue = objectFieldValue(object, field);
+
+                objInfo += fieldType + " " + fieldName + " : " + fieldValue;
+
+                objInfo += "\n";
+            }
+        }
+
+        return objInfo;
+    }
+
+    String objectFieldValue(Object object, Field field) throws IllegalAccessException, InstantiationException {
+        String result = "";
+        Object fieldValue;
+        String[] typePath;
+        String typeName;
+
+        field.setAccessible(true);
+
+        fieldValue = field.get(object);
+        typePath = field.getType().toString().split("\\.");
+        typeName = typePath[typePath.length-1];
+        switch (typeName) {
+            case "String":
+                result += (String) fieldValue;
+                break;
+            case "int":
+                result += String.format("%d", fieldValue);
+                break;
+            case "ImageIcon":
+                ImageIcon image = (ImageIcon) fieldValue;
+                result += image.getDescription();
+                break;
+            case "Date":
+                result += "some date";
+                break;
+            case "List":
+                List<Object> objectList = new ArrayList<Object>((List)fieldValue);
+                String tmp = "";
+                for (Object item : objectList) {
+                    if (item.getClass().getName().equals("User")) {
+                        User user = (User) item;
+                        tmp += user.getName() + " " + user.getSurname() + "; ";
+                    } else {
+                        tmp += item.toString();
+                    }
+                }
+
+                result += tmp;
+                break;
+            default:
+                break;
+        }
+
+        return result;
     }
 
     /*
@@ -79,7 +148,7 @@ public class ObjectInfo {
         objects[1] = is.readObject();
     }
 
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException {
         ObjectInfo info = new ObjectInfo();
         while (info.hasNext()){
             System.out.println(info.objectInfo());
