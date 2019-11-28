@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -129,8 +131,9 @@ public class ObjectInfo {
     * посмотрите на импорты)))
     * */
     public String JSONInfo(){
-        // TODO: 18/11/2019
-        return null;
+        Gson gson = new Gson();
+
+        return gson.toJson(objects);
     }
 
     /*
