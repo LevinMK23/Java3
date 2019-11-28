@@ -4,9 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 public class ObjectInfo {
 
@@ -103,7 +109,9 @@ public class ObjectInfo {
                 result += image.getDescription();
                 break;
             case "Date":
-                result += "some date";
+                Date date = (Date) fieldValue;
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                result += dateFormat.format(date);
                 break;
             case "List":
                 List<Object> objectList = new ArrayList<Object>((List)fieldValue);
