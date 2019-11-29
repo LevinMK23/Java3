@@ -1,18 +1,17 @@
 import com.google.gson.Gson;
 
 import javax.swing.*;
-import java.awt.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 public class ObjectInfo {
 
@@ -149,8 +148,16 @@ public class ObjectInfo {
      * поля классов отмаркированны так, чтобы работали методы
      * javax.xml.bind.*
      * */
-    public String XMLInfo() {
-        // TODO: 18/11/2019
+    public String XMLInfo() throws JAXBException {
+
+        JAXBContext jc = JAXBContext.newInstance(Objects.class, JavaClass.class, User.class);
+        Marshaller m = jc.createMarshaller();
+
+        for (Object o : objects) {
+            m.marshal(o, System.out);
+            System.out.println("");
+        }
+
         return null;
     }
 
@@ -159,7 +166,7 @@ public class ObjectInfo {
         objects[1] = is.readObject();
     }
 
-    public static void main(String[] args) throws IllegalAccessException, InstantiationException {
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException, JAXBException {
         ObjectInfo info = new ObjectInfo();
         while (info.hasNext()){
             System.out.println(info.objectInfo());
