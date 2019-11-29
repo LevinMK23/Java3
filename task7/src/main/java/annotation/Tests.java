@@ -11,27 +11,27 @@ public class Tests {
 
     @Test(priority = 1)
     public void sumTest(){
-        // TODO: 18/11/2019  
+        assert util.sum() == 38;
     }
 
     @Test(priority = 1)
     public void subTest(){
-        // TODO: 18/11/2019  
+        assert util.sub() == 12;
     }
 
     @Test(priority = 3)
     public void mulTest(){
-        // TODO: 18/11/2019  
+        assert util.mul() == (25 * 13);
     }
 
     @Test(priority = 3)
     public void divTest(){
-        // TODO: 18/11/2019  
+        assert util.div() == (25 / 13);
     }
 
     @Test(priority = 3)
     public void modTest(){
-        // TODO: 18/11/2019  
+        assert util.mod() == (25 % 13);
     }
 
     @After

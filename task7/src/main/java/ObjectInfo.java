@@ -1,4 +1,17 @@
+import com.google.gson.Gson;
+
+import javax.swing.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 import java.io.*;
+import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
 
 public class ObjectInfo {
 
@@ -7,8 +20,16 @@ public class ObjectInfo {
 
     //Use your path
     //Объект неизвестен)))
+    private static String defaultProjectsPath = "/Users/levinmk/IdeaProjects/Java3";
+    private static String javaProjectsPath = "";
+    static {
+        javaProjectsPath = System.getenv("PR_JAVA").replace('\\', '/') + "Java3-1";
+        if (javaProjectsPath == null) {
+            javaProjectsPath = defaultProjectsPath;
+        }
+    }
 
-    private String path = "/Users/levinmk/IdeaProjects/Java3" +
+    private String path = javaProjectsPath +
             "/task7/src/main/resources/";
 
     public ObjectInfo() {
@@ -42,9 +63,74 @@ public class ObjectInfo {
      * ......
      * типN имя_поляN : значениеN
      * */
-    public String objectInfo() {
-        // TODO: 18/11/2019
-        return null;
+    public String objectInfo() throws IllegalAccessException, InstantiationException {
+        String objInfo = "";
+
+        for (Object object : objects) {
+            String className = object.getClass().getName();
+            objInfo += className + ":\n";
+
+            Field[] fields = object.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                String fieldType = field.getType().toString();
+                String fieldName = field.getName();
+                String fieldValue = objectFieldValue(object, field);
+
+                objInfo += fieldType + " " + fieldName + " : " + fieldValue;
+
+                objInfo += "\n";
+            }
+        }
+
+        return objInfo;
+    }
+
+    String objectFieldValue(Object object, Field field) throws IllegalAccessException, InstantiationException {
+        String result = "";
+        Object fieldValue;
+        String[] typePath;
+        String typeName;
+
+        field.setAccessible(true);
+
+        fieldValue = field.get(object);
+        typePath = field.getType().toString().split("\\.");
+        typeName = typePath[typePath.length-1];
+        switch (typeName) {
+            case "String":
+                result += (String) fieldValue;
+                break;
+            case "int":
+                result += String.format("%d", fieldValue);
+                break;
+            case "ImageIcon":
+                ImageIcon image = (ImageIcon) fieldValue;
+                result += image.getDescription();
+                break;
+            case "Date":
+                Date date = (Date) fieldValue;
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                result += dateFormat.format(date);
+                break;
+            case "List":
+                List<Object> objectList = new ArrayList<Object>((List)fieldValue);
+                String tmp = "";
+                for (Object item : objectList) {
+                    if (item.getClass().getName().equals("User")) {
+                        User user = (User) item;
+                        tmp += user.getName() + " " + user.getSurname() + "; ";
+                    } else {
+                        tmp += item.toString();
+                    }
+                }
+
+                result += tmp;
+                break;
+            default:
+                break;
+        }
+
+        return result;
     }
 
     /*
@@ -52,8 +138,9 @@ public class ObjectInfo {
     * посмотрите на импорты)))
     * */
     public String JSONInfo(){
-        // TODO: 18/11/2019
-        return null;
+        Gson gson = new Gson();
+
+        return gson.toJson(objects);
     }
 
     /*
@@ -61,8 +148,16 @@ public class ObjectInfo {
      * поля классов отмаркированны так, чтобы работали методы
      * javax.xml.bind.*
      * */
-    public String XMLInfo() {
-        // TODO: 18/11/2019
+    public String XMLInfo() throws JAXBException {
+
+        JAXBContext jc = JAXBContext.newInstance(Objects.class, JavaClass.class, User.class);
+        Marshaller m = jc.createMarshaller();
+
+        for (Object o : objects) {
+            m.marshal(o, System.out);
+            System.out.println("");
+        }
+
         return null;
     }
 
@@ -71,7 +166,7 @@ public class ObjectInfo {
         objects[1] = is.readObject();
     }
 
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException, JAXBException {
         ObjectInfo info = new ObjectInfo();
         while (info.hasNext()){
             System.out.println(info.objectInfo());
