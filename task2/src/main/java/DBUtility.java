@@ -18,22 +18,42 @@ public class DBUtility {
      */
 
 
-    void AddPrinters(Statement stmt){
-        // TODO: 16.12.2019  
+    void AddPrinters(Statement stmt) throws SQLException {
+        ArrayList<Printer> printers = new ArrayList<>();
+        Printer printer1 = new Printer(1012,"HP", "col", "laser", 20000);
+        Printer printer2 = new Printer(1010,"Canon", "bw", "jet", 5000);
+        Printer printer3 = new Printer(1010,"Canon", "bw", "jet", 5000);
+        printers.add(printer1);
+        printers.add(printer2);
+        printers.add(printer3);
+
+        for (Printer printer : printers) {
+            stmt.addBatch("INSERT INTO Printer (model, maker, color, type, price) VALUES (" + printer.getModel()
+                + ", '" + printer.getMaker() + "', '" + printer.getColor() + "', '" + printer.getType()
+                + "', " + printer.getPrice() + ");");
+        }
+        stmt.executeBatch();
     }
 
 
-    public void createPrinterTable(Connection con, Statement  stmt){
-        // TODO: 16.12.2019  
+    public void createPrinterTable(Connection con, Statement  stmt) throws SQLException {
+        stmt.execute("CREATE TABLE IF NOT EXISTS " +
+            "Printer (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE " +
+            ", model  INTEGER, maker TEXT, color TEXT, type TEXT, price INTEGER)");
+        AddPrinters(stmt);
     }
 
     /*
     * Метод должен вернуть список уникальных моделей PC дороже 15 тысяч
      */
 
-    public ArrayList<String> selectExpensivePC(Statement stmt){
-        //todo
-        return null;
+    public ArrayList<String> selectExpensivePC(Statement stmt) throws SQLException {
+        ArrayList<String> models = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery("select distinct p.model from pc p where p.price > 15000");
+        while (rs.next()) {
+            models.add(rs.getString("model"));
+        }
+        return models;
     }
 
     /*
@@ -41,18 +61,27 @@ public class DBUtility {
      * которых выше чем 2500
      */
 
-    public ArrayList<Integer> selectQuickLaptop(Statement stmt) {
-        // TODO: 16.12.2019  
-        return null;
+    public ArrayList<Integer> selectQuickLaptop(Statement stmt) throws SQLException {
+        ArrayList<Integer> ids = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery("SELECT l.id from Laptop l where l.speed > 2500");
+        while (rs.next()) {
+            ids.add(rs.getInt("id"));
+        }
+        return ids;
     }
 
     /*
      * Метод должен вернуть список производителей которые
      *  делают и пк и ноутбуки
      */
-    public ArrayList<String> selectMaker(Statement stmt){
+    public ArrayList<String> selectMaker(Statement stmt) throws SQLException {
         ArrayList<String> ans = new ArrayList<>();
-        // TODO: 18.02.2020
+        ResultSet rs = stmt.executeQuery("SELECT DISTINCT pr.maker from Product pr, (" +
+            "SELECT p.maker from Product p where p.type = 'PC' and p.type <> 'Laptop') p " +
+            "where pr.type = 'Laptop' and pr.maker = p.maker");
+        while (rs.next()) {
+            ans.add(rs.getString("maker"));
+        }
         return ans;
     }
 
@@ -65,9 +94,18 @@ public class DBUtility {
      * или сделать любым другим способом
      */
 
-    public int makerWithMaxProceeds(Statement stmt){
+    public int makerWithMaxProceeds(Statement stmt) throws SQLException {
         int result = 0;
-        //todo
+        ResultSet rs = stmt.executeQuery("select max(m.sum) summ from (select sum(m.price) sum, p.maker from " +
+            "(SELECT pc.price, pc.model from PC pc\n" +
+            "UNION ALL\n" +
+            "SELECT l.price, l.model from Laptop l) m,\n" +
+            "(SELECT p.* FROM Product p GROUP by p.model) p\n" +
+            "where m.model = p.model\n" +
+            "group by p.maker) m");
+        while (rs.next()) {
+            result = rs.getInt("summ");
+        }
         return result;
 
     }

@@ -19,7 +19,7 @@ public class DBTests {
         try {
             util = new DBUtility();
             Class.forName("org.sqlite.JDBC");
-            con = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Mikhail\\IdeaProjects\\Java31\\homework.db");
+            con = DriverManager.getConnection("jdbc:sqlite:C:\\Geekbrains\\Java3\\homework.db");
             stmt = con.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -47,28 +47,28 @@ public class DBTests {
     }
 
     @Test
-    public void testExpensivePC(){
+    public void testExpensivePC() throws SQLException {
         ArrayList<String> list = util.selectExpensivePC(stmt);
         list.sort(Comparator.comparing(o->o));
         Assert.assertArrayEquals(new String[]{"2205", "2210"}, list.toArray());
     }
 
     @Test
-    public void testQuickLaptop(){
+    public void testQuickLaptop() throws SQLException {
         ArrayList<Integer> list = util.selectQuickLaptop(stmt);
         Collections.sort(list);
         Assert.assertArrayEquals(new Integer[]{3, 7}, list.toArray());
     }
 
     @Test
-    public void testMaker(){
+    public void testMaker() throws SQLException {
         ArrayList<String> list = util.selectMaker(stmt);
         Collections.sort(list);
         Assert.assertArrayEquals(new String[]{"Intel"}, list.toArray());
     }
 
     @Test
-    public void maxCostTest(){
+    public void maxCostTest() throws SQLException {
         int max = util.makerWithMaxProceeds(stmt);
         Assert.assertEquals(140000, max);
     }
