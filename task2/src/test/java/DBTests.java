@@ -47,7 +47,7 @@ public class DBTests {
   }
 
   @Test
-  public void testExpensivePC() {
+  public void testExpensivePC() throws SQLException {
     ArrayList<String> list = util.selectExpensivePC(stmt);
     list.sort(Comparator.comparing(o -> o));
     Assert.assertArrayEquals(new String[] {"2205", "2210"}, list.toArray());
