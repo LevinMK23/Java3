@@ -1,12 +1,12 @@
 public class A {
 
-    static {
-        System.out.println("LOL!");
-    }
+  static int a;
 
-    public A() {
-        System.out.println("CONSTRUCTOR");
-    }
+  static {
+    System.out.println("LOL!");
+  }
 
-    static int a;
+  public A() {
+    System.out.println("CONSTRUCTOR");
+  }
 }
