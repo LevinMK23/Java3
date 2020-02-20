@@ -42,13 +42,15 @@ public class DBUtility {
    * Метод должен вернуть список уникальных моделей PC дороже 15 тысяч
    */
 
-  public ArrayList<String> selectExpensivePC(Statement stmt) throws SQLException {
+  public ArrayList<String> selectExpensivePC(Statement stmt) {
     ArrayList<String> result = new ArrayList<>();
     try (ResultSet resultSet =
         stmt.executeQuery("select distinct model from PC where price > 15000")) {
       while (resultSet.next()) {
         result.add(resultSet.getString(1));
       }
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
     return result;
   }
@@ -59,8 +61,17 @@ public class DBUtility {
    */
 
   public ArrayList<Integer> selectQuickLaptop(Statement stmt) {
-    // TODO: 16.12.2019
-    return null;
+    ArrayList<Integer> result = new ArrayList<>();
+    try {
+      try (ResultSet resultSet = stmt.executeQuery("select id from laptop l where speed > 2500")) {
+        while (resultSet.next()) {
+          result.add(resultSet.getInt(1));
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 
   /*
@@ -69,7 +80,16 @@ public class DBUtility {
    */
   public ArrayList<String> selectMaker(Statement stmt) {
     ArrayList<String> ans = new ArrayList<>();
-    // TODO: 18.02.2020
+    try {
+      try (ResultSet resultSet =
+          stmt.executeQuery("select distinct maker from product p group by type")) {
+        while (resultSet.next()) {
+          ans.add(resultSet.getString(1));
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     return ans;
   }
 
@@ -84,7 +104,27 @@ public class DBUtility {
 
   public int makerWithMaxProceeds(Statement stmt) {
     int result = 0;
-    // todo
+    try {
+      try (ResultSet resultSet =
+          stmt.executeQuery(
+              "SELECT MAX(s)\n"
+                  + "FROM (SELECT p.maker,\n"
+                  + "             SUM(COALESCE(k.price,COALESCE(l.price,0))) s\n"
+                  + "      FROM (SELECT DISTINCT * FROM product pp) p\n"
+                  + "        LEFT JOIN pc k\n"
+                  + "               ON k.model = p.model\n"
+                  + "              AND p.\"type\" = 'PC'\n"
+                  + "        LEFT JOIN laptop l\n"
+                  + "               ON l.model = p.model\n"
+                  + "              AND p.\"type\" = 'Laptop'\n"
+                  + "      GROUP BY p.maker)")) {
+        while (resultSet.next()) {
+          result = resultSet.getInt(1);
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     return result;
   }
 }

@@ -19,7 +19,9 @@ public class DBTests {
     try {
       util = new DBUtility();
       Class.forName("org.sqlite.JDBC");
-      con = DriverManager.getConnection("jdbc:sqlite:homework.db");
+      con =
+          DriverManager.getConnection(
+              "jdbc:sqlite:C:\\Users\\MishinMV\\Documents\\DEV\\Java3-1\\homework.db");
       stmt = con.createStatement();
     } catch (ClassNotFoundException | SQLException e) {
       e.printStackTrace();
@@ -47,7 +49,7 @@ public class DBTests {
   }
 
   @Test
-  public void testExpensivePC() throws SQLException {
+  public void testExpensivePC() {
     ArrayList<String> list = util.selectExpensivePC(stmt);
     list.sort(Comparator.comparing(o -> o));
     Assert.assertArrayEquals(new String[] {"2205", "2210"}, list.toArray());
