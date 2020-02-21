@@ -15,35 +15,9 @@ public class FileUtility {
      * out:
      * 5 2 4 1 3
      */
-
     public void sortEvenElements(File in, File out) {
         //TODO
-        try {
-            Scanner cin = new Scanner(in);
-            int n = cin.nextInt();
-            int [] a = new int[n];
-            LinkedList<Integer> even = new LinkedList<>();
-            for (int i = 0; i < n; i++) {
-                a[i] = cin.nextInt();
-                if (a[i] % 2 == 0) {
-                    even.add(a[i]); //O(1)
-                    //O(n)
-                }
-            }
-            Collections.sort(even);
-            for (int i = 0; i < n; i++) {
-                if (a[i] % 2 == 0) {
-                    a[i] = even.pollFirst(); //O(1)
-                }
-            }
-            FileWriter writer = new FileWriter(out);
-            for (int i = 0; i < n; i++) {
-                writer.write(a[i] + " ");
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     /*
@@ -66,18 +40,7 @@ public class FileUtility {
      * записи из списка по одной записи в строке
      * */
     public void appender(File file, List<String> records) {
-        //SOLID
-        //LISKOV
 
-
-
-        try (FileWriter writer = new FileWriter(file, true)) {
-            for(String str : records) {
-                writer.write(str + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /*
@@ -91,7 +54,6 @@ public class FileUtility {
      * */
     public List<String> getNString(String pathToFile, int n) {
         //TODO
-        // \n \r, \n
         return null;
     }
 
