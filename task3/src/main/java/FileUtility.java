@@ -1,5 +1,7 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class FileUtility {
 
@@ -16,7 +18,45 @@ public class FileUtility {
    * 5 2 4 1 3
    */
   public void sortEvenElements(File in, File out) {
-    //TODO
+    String[] numbers = new String[0];
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+      int inputSize = Integer.parseInt(reader.readLine());
+      numbers = reader
+          .readLine()
+          .split(" ");
+
+      // Adding even numbers to ArrayList
+      ArrayList<Integer> evens = new ArrayList<>();
+      for (int i = 0; i < inputSize; i++) {
+        int currentItem = Integer.parseInt(numbers[i]);
+        if ((currentItem % 2) == 0) {
+          evens.add(currentItem);
+          // Replacing even number with % symbol
+          numbers[i] = "%";
+        }
+      }
+      Collections.sort(evens); // Сортируем четные числа
+
+      int j = 0;
+      for (int i = 0; i < inputSize; i++)
+        if (numbers[i].equals("%")) {
+          numbers[i] = String.valueOf(
+              // Восстанавливаем начальный массив отсортированными четными числами
+              evens.get(j++));
+        }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    // Записываем полученный массив в файл
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(out))) {
+      for (final String number : numbers) {
+        writer.write(number + " ");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
   }
 
