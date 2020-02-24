@@ -133,7 +133,14 @@ public class FileUtility {
    * записи из списка по одной записи в строке
    * */
   public void appender(File file, List<String> records) {
-
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+      writer.newLine();
+      for (String record : records) {
+        writer.write(record + "\n");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /*
