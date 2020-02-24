@@ -1,20 +1,12 @@
 package classwork;
 
-import jdk.management.resource.internal.inst.FileInputStreamRMHooks;
-
-import java.io.*;
-import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class FileSystem {
 
-    static String path = "C:\\Users\\Mikhail\\IdeaProjects\\Java31\\task3\\src\\main\\java\\classwork";
+    static String path = "D:\\Projects\\Java3-1\\task3\\src\\main\\resources";
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         //System.out.println(Arrays.toString(File.listRoots()));
         File file = new File(path + "1.txt");
