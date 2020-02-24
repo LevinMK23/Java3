@@ -75,7 +75,7 @@ public class FileUtility {
   public void passwordGen(File in, File out) {
     HashSet<String> passwords = new HashSet<>();
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(in));
-         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(out));
+         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(out))
     ) {
       String line;
       while ((line = bufferedReader.readLine()) != null) {
@@ -153,8 +153,44 @@ public class FileUtility {
    * Альтернативное решение: использование очереди или стека
    * */
   public List<String> getNString(String pathToFile, int n) {
-    //TODO
-    return null;
+    List<String> tmpResult = new ArrayList<>();
+    try (RandomAccessFile randomAccessFile = new RandomAccessFile(pathToFile, "r")) {
+      // lines number
+      int lines = 0;
+      // get file length
+      long length = randomAccessFile.length();
+      // сюда будем считывать символы строк
+      StringBuilder builder = new StringBuilder();
+      // нагуглил, что так надо
+      length--;
+      // seek to the end of file
+      randomAccessFile.seek(length);
+      // считываем строки с конца
+      for (long i = length; i >= 0; --i) {
+        randomAccessFile.seek(i);
+        // читаем символ
+        char c = (char) randomAccessFile.read();
+        // добавляем символ в стрингбилдер
+        builder.append(c);
+        // Если новая строка и длина строки больше 1 - то добавляем строку в конечный результат
+        if (c == '\n' && builder.length() > 1) {
+          // реверсируем строку
+          builder = builder.reverse();
+          // добавляем строку
+          tmpResult.add(String.valueOf(builder));
+          lines++;
+          // обнуляем стрингбилдер
+          builder = new StringBuilder();
+          // если прочитали нужное число строк - прерываем цикл
+          if (lines == n) break;
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    // Реверсируем список, т.к. читаем снизу вверх
+    Collections.reverse(tmpResult);
+    return tmpResult;
   }
 
 }
