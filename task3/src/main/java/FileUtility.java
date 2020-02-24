@@ -1,7 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class FileUtility {
 
@@ -21,10 +23,10 @@ public class FileUtility {
     String[] numbers = new String[0];
 
     try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
-      int inputSize = Integer.parseInt(reader.readLine());
+      int inputSize = Integer.parseInt(reader.readLine()); // Reading 1st line
       numbers = reader
           .readLine()
-          .split(" ");
+          .split(" "); // Reading second line
 
       // Adding even numbers to ArrayList
       ArrayList<Integer> evens = new ArrayList<>();
@@ -71,9 +73,60 @@ public class FileUtility {
    */
 
   public void passwordGen(File in, File out) {
-    //TODO
+    HashSet<String> passwords = new HashSet<>();
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(in));
+         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(out));
+    ) {
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        while (true) {
+          String password = genPassword();
+          // Проверяем, что такого пароля еще нет
+          if (!passwords.contains(password)) {
+            passwords.add(password);
+            System.out.println(line + " " + password);
+            bufferedWriter.write(line + " " + password + "\n");
+            break;
+          }
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
 
   }
+
+  private String genPassword() {
+    int passwordLength = ThreadLocalRandom
+        .current()
+        .nextInt(6, 12);
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < passwordLength; i++) {
+      // Вызываем по одному методу
+      if (i % 4 == 0) {
+        result.append(getPasswordSymbol("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+      } else if (i % 4 == 1) {
+        result.append(getPasswordSymbol("abcdefghijklmnopqrstuvwxyz"));
+      } else if (i % 4 == 2) {
+        result.append(getPasswordSymbol("0123456789"));
+      } else {
+        result.append(getPasswordSymbol("*!%"));
+      }
+    }
+    return result.toString();
+  }
+
+  private char getPasswordSymbol(final String stringLine) {
+    char result = 0;
+    for (int j = 0; j < stringLine.length(); j++) {
+      result = stringLine.charAt(ThreadLocalRandom
+                                     .current()
+                                     .nextInt(stringLine.length()));
+    }
+    return result;
+  }
+
 
   /*
    *  Метод должен дописать в переданный файл все
