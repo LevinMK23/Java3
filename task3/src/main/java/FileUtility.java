@@ -16,7 +16,31 @@ public class FileUtility {
      * 5 2 4 1 3
      */
     public void sortEvenElements(File in, File out) {
-        //TODO
+        try {
+            Scanner cin = new Scanner(in);
+            LinkedList<Integer> evens = new LinkedList<>();
+            int n = cin.nextInt();
+            int [] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = cin.nextInt();
+                if (a[i] % 2 == 0) {
+                    evens.add(a[i]);
+                }
+            }
+            evens.sort(Comparator.comparingInt(o->o));
+            for (int i = 0; i < n; i++) {
+                if (a[i] % 2 == 0) {
+                    a[i] = evens.pollFirst(); //
+                }
+            }
+            PrintWriter pr = new PrintWriter(out);
+            for (int i : a) {
+                pr.print(i + " ");
+            }
+            pr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -53,7 +77,22 @@ public class FileUtility {
      * Альтернативное решение: использование очереди или стека
      * */
     public List<String> getNString(String pathToFile, int n) {
-        //TODO
+        LinkedList<String> queue = new LinkedList<>();
+        File file = new File(pathToFile);
+        try {
+            Scanner in = new Scanner(file);
+            while (in.hasNextLine()) {
+                if (queue.size() < n) {
+                    queue.add(in.nextLine());
+                } else {
+                    queue.removeFirst();
+                    queue.add(in.nextLine());
+                }
+            }
+            return queue;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
