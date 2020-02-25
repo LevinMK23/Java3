@@ -161,7 +161,7 @@ public class FileUtility {
       long length = randomAccessFile.length();
       // сюда будем считывать символы строк
       StringBuilder builder = new StringBuilder();
-      // нагуглил, что так надо
+      // ставим указатель на последний символ файла
       length--;
       // seek to the end of file
       randomAccessFile.seek(length);
