@@ -4,7 +4,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TaskRunner implements Runnable {
 
     //TODO
-
+    
+    // по заданию из Гит не понял что именно нужно сделать...
     Object mutex;   //монитор синхронизации
     String message; //сообщение которое поток будет добавлять в список
 
@@ -33,19 +34,41 @@ public class TaskRunner implements Runnable {
     public void run() {
         // TODO: 26.12.2019
         while (list.size() < 60) {
-            //synchronized (mutex) {
+            synchronized (mutex) {
                 if ((iter % 30) == cnt) {
                     list.add(message);
                     iter++;
-//                    try {
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            //}
+            }
         }
         System.out.println(list);
     }
 
+    public void threeThreads() { // Задача с сайта через notify не удалось...буду штутдировать дальше
+        Thread A = new Thread(()-> {
+                System.out.print("A");
+        });
+        Thread B = new Thread(()-> {
+                System.out.print("B");
+        });
+        Thread C = new Thread(()-> {
+                System.out.print("C");
+        });
+        A.start();
+        B.start();
+        C.start();
+        try {
+            A.join();
+            B.join();
+            C.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
