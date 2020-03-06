@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="homework" uuid="7a926ec4-6d0f-48c4-a9c1-0819cd433dfe">
+    <data-source source="LOCAL" name="classwork" uuid="4a1a02eb-9620-4dc1-a0f5-c453e783bed8">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Mikhail\IdeaProjects\Java3\homework.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\Mikhail\IdeaProjects\Java31\classwork.db</jdbc-url>
       <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
+        </library>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
         </library>
@@ -15,20 +21,23 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="tmpDB.db" uuid="a78277ef-1074-451f-83c8-a56c11a4e6ae">
+    <data-source source="LOCAL" name="tmpDB.db" uuid="01a5e71e-2bb7-4af6-adcd-11937598a188">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/tmpDB.db</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="homework [2]" uuid="5b4cc425-c0a9-424c-aebb-33c8f9e18aeb">
+    <data-source source="LOCAL" name="homework.db" uuid="b8f44c03-194c-4b8f-aa60-3402b85a273b">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Mikhail\IdeaProjects\Java31\homework.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/homework.db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="DB" uuid="3455afc9-096e-4785-a9b8-bdd2edbf5dbb">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Mikhail\IdeaProjects\Java31\DB</jdbc-url>
       <libraries>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
@@ -36,13 +45,13 @@
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
         </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
+        </library>
       </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="classwork.db" uuid="bb3b488e-7e08-4bc4-918f-a4220bc8fabe">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:classwork.db</jdbc-url>
     </data-source>
   </component>
 </project>

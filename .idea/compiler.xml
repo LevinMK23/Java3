@@ -23,7 +23,7 @@
       <module name="task4" target="8" />
       <module name="task5" target="8" />
       <module name="task6" target="8" />
-      <module name="task7" target="8" />
+      <module name="task7" target="11" />
       <module name="task8" target="8" />
     </bytecodeTargetLevel>
   </component>
