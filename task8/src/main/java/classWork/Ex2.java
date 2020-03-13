@@ -1,24 +1,31 @@
 package classWork;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 
 public class Ex2 {
 
-    public static void main(String[] args) {
-        User.LocalClass cl = new User()
-                .new LocalClass();
+    private static class A {
+        int a, b, c;
 
-        List<Integer> l = Collections
-                .unmodifiableList(Arrays.asList(1,23,4));
-        //Stream API
-        l.stream().map(x-> x + 3)
-                  .sorted()
-                  .filter(x-> x >= 4)
-                  .forEach(System.out::println);
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof A)) {
+                return false;
+            }
+            return a + b == ((A) obj).a + ((A) obj).b;
+        }
+
+    }
+
+    public static void main(String[] args) {
+        RuntimeException e = new RuntimeException("LOL");
+        try {
+            throw e;
+        } catch (Exception exc) {
+           throw  e;
+        }
 
     }
 }
