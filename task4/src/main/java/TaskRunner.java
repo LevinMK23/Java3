@@ -32,19 +32,21 @@ public class TaskRunner implements Runnable {
     @Override
     public void run() {
         // TODO: 26.12.2019
+        try {
         while (list.size() < 60) {
-            //synchronized (mutex) {
-                if ((iter % 30) == cnt) {
-                    list.add(message);
-                    iter++;
-//                    try {
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
+            synchronized (mutex) {
+                while ((iter % 3) != cnt) {
+                        mutex.wait();
                 }
-            //}
+                list.add(message);
+                iter++;
+                mutex.notifyAll();
+            }
+       }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
         System.out.println(list);
     }
 
